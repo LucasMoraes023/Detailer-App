@@ -116,10 +116,16 @@ Excelência em cuidado automotivo: acabamento padrão concessionária, polimento
 </div>
 
 <script>
-const supabase = window.supabase.createClient(
-  "COLE_SUA_URL_AQUI",
-  "COLE_SUA_KEY_AQUI"
-);
+// 🔥 COLOQUE SUA URL E ANON KEY AQUI
+const SUPABASE_URL = "https://zmhwbnxnceibmdmntbhh.supabase.co";
+const SUPABASE_KEY = "zmhwbnxnceibmdmntbhh";
+
+// Verifica se configurou
+if (SUPABASE_KEY === "zmhwbnxnceibmdmntbhh") {
+  alert("⚠️ Você não colocou a ANON KEY do Supabase!");
+}
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // TROCAR TELAS
 function mostrarCadastro(){
@@ -137,12 +143,18 @@ async function login(){
   const email = document.getElementById("email").value;
   const senha = document.getElementById("senha").value;
 
+  if(!email || !senha){
+    alert("Preencha todos os campos");
+    return;
+  }
+
   const { error } = await supabase.auth.signInWithPassword({
-    email, password: senha
+    email: email,
+    password: senha
   });
 
   if(error){
-    alert("Erro no login");
+    alert("Erro no login: " + error.message);
   } else {
     abrirApp();
   }
@@ -153,14 +165,20 @@ async function cadastrar(){
   const email = document.getElementById("email_cad").value;
   const senha = document.getElementById("senha_cad").value;
 
+  if(!email || !senha){
+    alert("Preencha todos os campos");
+    return;
+  }
+
   const { error } = await supabase.auth.signUp({
-    email, password: senha
+    email: email,
+    password: senha
   });
 
   if(error){
-    alert("Erro ao cadastrar");
+    alert("Erro ao cadastrar: " + error.message);
   } else {
-    alert("Conta criada!");
+    alert("Conta criada com sucesso!");
     voltarLogin();
   }
 }
@@ -183,12 +201,17 @@ async function agendar(){
   const servico = document.getElementById("servico").value;
   const horario = document.getElementById("horario").value;
 
+  if(!nome){
+    alert("Digite seu nome");
+    return;
+  }
+
   const { error } = await supabase
     .from('agendamentos')
     .insert([{ nome, servico, horario, status: "pendente" }]);
 
   if(error){
-    alert("Erro ao agendar");
+    alert("Erro ao agendar: " + error.message);
   } else {
     alert("Agendado com sucesso!");
   }
