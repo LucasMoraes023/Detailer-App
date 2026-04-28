@@ -1,0 +1,33 @@
+body {
+  background: black;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+h1 {
+  color: red;
+}
+
+.descricao {
+  margin: 20px;
+}
+
+input, select, button {
+  width: 80%;
+  padding: 12px;
+  margin: 10px;
+  border-radius: 10px;
+  border: none;
+}
+
+button {
+  background: red;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
