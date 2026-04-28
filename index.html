@@ -8,33 +8,82 @@
 
 <style>
 body {
-  background: black;
-  color: white;
+  margin: 0;
   font-family: Arial;
+  background: linear-gradient(135deg, #000000, #1a1a1a);
+  color: white;
   text-align: center;
+}
+
+.container {
+  max-width: 400px;
+  margin: auto;
   padding: 20px;
 }
+
+.logo {
+  width: 120px;
+  margin: 20px auto;
+}
+
 h1 {
   color: red;
 }
-input, select, button {
-  width: 80%;
+
+input, select {
+  width: 90%;
   padding: 12px;
-  margin: 10px;
-  border-radius: 10px;
+  margin: 8px;
+  border-radius: 8px;
   border: none;
 }
+
 button {
+  width: 95%;
+  padding: 12px;
+  margin: 10px;
+  border: none;
+  border-radius: 8px;
   background: red;
   color: white;
   font-weight: bold;
+}
+
+.hidden {
+  display: none;
 }
 </style>
 </head>
 
 <body>
 
+<div class="container">
+
+<img src="logo.png" class="logo">
+
 <h1>DETAILER LUCAS MORAES</h1>
+
+<!-- LOGIN -->
+<div id="login">
+<input id="email" placeholder="Email">
+<input id="senha" type="password" placeholder="Senha">
+
+<button onclick="login()">Entrar</button>
+<button onclick="mostrarCadastro()">Criar Conta</button>
+</div>
+
+<!-- CADASTRO -->
+<div id="cadastro" class="hidden">
+<input id="nome_cad" placeholder="Nome">
+<input id="email_cad" placeholder="Email">
+<input id="senha_cad" type="password" placeholder="Senha">
+
+<button onclick="cadastrar()">Cadastrar</button>
+<button onclick="voltarLogin()">Voltar</button>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
 
 <p>
 Excelência em cuidado automotivo: acabamento padrão concessionária, polimento e vitrificação com agendamento exclusivo.
@@ -43,40 +92,96 @@ Excelência em cuidado automotivo: acabamento padrão concessionária, polimento
 <input id="nome" placeholder="Seu nome">
 
 <select id="servico">
-  <option>Polimento</option>
-  <option>Vitrificação</option>
-  <option>Lavagem Completa</option>
+<option>Polimento</option>
+<option>Vitrificação</option>
+<option>Lavagem Completa</option>
 </select>
 
 <select id="horario">
-  <option>08:00</option>
-  <option>09:00</option>
-  <option>10:00</option>
-  <option>11:00</option>
-  <option>13:00</option>
-  <option>14:00</option>
-  <option>15:00</option>
-  <option>16:00</option>
+<option>08:00</option>
+<option>09:00</option>
+<option>10:00</option>
+<option>11:00</option>
+<option>13:00</option>
+<option>14:00</option>
+<option>15:00</option>
+<option>16:00</option>
 </select>
 
 <button onclick="agendar()">Agendar</button>
+<button onclick="logout()">Sair</button>
+
+</div>
+
+</div>
 
 <script>
-/* 🔥 COLE SUA URL E KEY AQUI */
 const supabase = window.supabase.createClient(
   "COLE_SUA_URL_AQUI",
   "COLE_SUA_KEY_AQUI"
 );
 
+// TROCAR TELAS
+function mostrarCadastro(){
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("cadastro").classList.remove("hidden");
+}
+
+function voltarLogin(){
+  document.getElementById("cadastro").classList.add("hidden");
+  document.getElementById("login").classList.remove("hidden");
+}
+
+// LOGIN
+async function login(){
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email, password: senha
+  });
+
+  if(error){
+    alert("Erro no login");
+  } else {
+    abrirApp();
+  }
+}
+
+// CADASTRO
+async function cadastrar(){
+  const email = document.getElementById("email_cad").value;
+  const senha = document.getElementById("senha_cad").value;
+
+  const { error } = await supabase.auth.signUp({
+    email, password: senha
+  });
+
+  if(error){
+    alert("Erro ao cadastrar");
+  } else {
+    alert("Conta criada!");
+    voltarLogin();
+  }
+}
+
+// ABRIR APP
+function abrirApp(){
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+}
+
+// LOGOUT
+function logout(){
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("login").classList.remove("hidden");
+}
+
+// AGENDAR
 async function agendar(){
   const nome = document.getElementById("nome").value;
   const servico = document.getElementById("servico").value;
   const horario = document.getElementById("horario").value;
-
-  if(!nome){
-    alert("Digite seu nome");
-    return;
-  }
 
   const { error } = await supabase
     .from('agendamentos')
@@ -84,9 +189,8 @@ async function agendar(){
 
   if(error){
     alert("Erro ao agendar");
-    console.log(error);
   } else {
-    alert("Agendamento realizado com sucesso!");
+    alert("Agendado com sucesso!");
   }
 }
 </script>
