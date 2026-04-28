@@ -3,29 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <title>Detailer Lucas Moraes</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<style>
+body {
+  background: black;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+  padding: 20px;
+}
+h1 {
+  color: red;
+}
+input, select, button {
+  width: 80%;
+  padding: 12px;
+  margin: 10px;
+  border-radius: 10px;
+  border: none;
+}
+button {
+  background: red;
+  color: white;
+  font-weight: bold;
+}
+</style>
 </head>
 
-<body style="background:black;color:white;text-align:center;font-family:Arial">
+<body>
 
-<h1 style="color:red;">DETAILER LUCAS MORAES</h1>
+<h1>DETAILER LUCAS MORAES</h1>
 
 <p>
 Excelência em cuidado automotivo: acabamento padrão concessionária, polimento e vitrificação com agendamento exclusivo.
 </p>
 
-<input placeholder="Seu nome"><br><br>
+<input id="nome" placeholder="Seu nome">
 
-<select>
+<select id="servico">
   <option>Polimento</option>
   <option>Vitrificação</option>
-</select><br><br>
+  <option>Lavagem Completa</option>
+</select>
 
-<select>
+<select id="horario">
   <option>08:00</option>
   <option>09:00</option>
-</select><br><br>
+  <option>10:00</option>
+  <option>11:00</option>
+  <option>13:00</option>
+  <option>14:00</option>
+  <option>15:00</option>
+  <option>16:00</option>
+</select>
 
-<button>Agendar</button>
+<button onclick="agendar()">Agendar</button>
+
+<script>
+/* 🔥 COLE SUA URL E KEY AQUI */
+const supabase = window.supabase.createClient(
+  "COLE_SUA_URL_AQUI",
+  "COLE_SUA_KEY_AQUI"
+);
+
+async function agendar(){
+  const nome = document.getElementById("nome").value;
+  const servico = document.getElementById("servico").value;
+  const horario = document.getElementById("horario").value;
+
+  if(!nome){
+    alert("Digite seu nome");
+    return;
+  }
+
+  const { error } = await supabase
+    .from('agendamentos')
+    .insert([{ nome, servico, horario, status: "pendente" }]);
+
+  if(error){
+    alert("Erro ao agendar");
+    console.log(error);
+  } else {
+    alert("Agendamento realizado com sucesso!");
+  }
+}
+</script>
 
 </body>
 </html>
