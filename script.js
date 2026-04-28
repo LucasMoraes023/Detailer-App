@@ -1,6 +1,6 @@
 const supabase = window.supabase.createClient(
-  "SUA_URL",
-  "SUA_KEY"
+  "https://zmhwbnxnceibmdmntbhh.supabase.co",
+  "sb_publishable_SARoClbz6SwUk1RHHWDHgw_SUxJAsPe"
 );
 
 async function agendar(){
