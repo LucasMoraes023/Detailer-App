@@ -1,0 +1,22 @@
+{
+  "name": "Detailer Lucas Moraes",
+  "short_name": "Detailer LM",
+  "description": "Aplicativo profissional para agendamento de serviços de detalhamento automotivo",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ff6b35",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
