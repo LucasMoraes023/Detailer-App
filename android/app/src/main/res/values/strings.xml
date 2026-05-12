@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Detailer Lucas Moraes</string>
+    <string name="title_activity_main">Detailer Lucas Moraes</string>
+    <string name="package_name">com.lucasmoraes.detailer</string>
+    <string name="custom_url_scheme">com.lucasmoraes.detailer</string>
+</resources>
